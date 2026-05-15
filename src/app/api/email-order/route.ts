@@ -105,7 +105,7 @@ export async function GET() {
   }
 
   // Create order items
-  const orderItems = validData.items.map((item: any) => ({
+  const orderItems = validData.items.map((item) => ({
     order_id: order.id,
     ...(item.article_number ? { article_number: item.article_number } : {}),
     ...(item.part_name ? { part_name: item.part_name } : {}),
