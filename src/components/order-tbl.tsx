@@ -16,6 +16,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from ".
 import OrderStatusBadge from "./order-badge";
 import { useState, useMemo } from "react";
 import { OrderRows, OrderRow } from "@/lib/schema/orders";
+import AddOrder from "./add-order";
 
 type Props = {
   orders: OrderRows;
@@ -81,15 +82,15 @@ export default function OrderTable({ orders }: Props) {
 
   return (
     <div className='space-y-3'>
-      <div className='flex justify-between gap-2'>
+      <div className='flex gap-2'>
         <Input
           placeholder='Search orders...'
           value={globalFilter}
           onChange={(e) => setGlobalFilter(e.target.value)}
-          className='max-w-xs'
+          className='max-w-xs mr-auto'
         />
+        <AddOrder />
         <Button variant={"outline"}>Filter</Button>
-        {/* Add Order */}
       </div>
 
       <div className='overflow-x-auto rounded border'>
