@@ -1,8 +1,28 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+## Kurzbeschreibung
 
-## Getting Started
+![Prozess](./.github/process.png)
 
-First, run the development server:
+Dieses Projekt bildet einen digitalen Bestelleingangsprozess ab: eingehende Bestellungen werden aus Dokumenten extrahiert, validiert und verwaltet. Nutzer können Bestellungen prüfen, Fehlerfälle erkennen und den Status der Verarbeitung nachvollziehen.
+
+Eine neue E‑Mail löst einen Hook aus. Anschließend werden aus der E‑Mail und dem Anhang die relevanten Informationen extrahiert. Zunächst wird das PDF in einem isolierten Container auf Viren geprüft. Danach extrahiert eine KI die Daten mittels OCR aus dem PDF oder der E‑Mail und validiert sie. Sind die Daten valide, werden sie ins ERP‑System übernommen. Andernfalls muss die Bestellung von einem Mitarbeitenden korrigiert werden. Sollte festgestellt werden, dass die KI einen Fehler beim Auslesen gemacht hat, sollte sie trainiert werden. Sind die Daten korrigiert, werden die Daten in das ERP-System übernommen.
+Fälle wie automatische wie Lagerprüfung, Bestellbestätigung oder Bonitäsprüfung wurden in diesem Projekt nicht beachtet.
+
+## Anleitung
+
+Abhängigkeiten installieren
+
+```bash
+pnpm install
+```
+
+.env.local Variablen deklarieren
+
+```
+NEXT_PUBLIC_SUPABASE_URL=
+NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY=
+```
+
+Development server starten:
 
 ```bash
 npm run dev
@@ -14,23 +34,41 @@ pnpm dev
 bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Getroffene Annahmen
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+- Die KI liefert strukturierte Datenfelder (Kunde, Positionen, Preise, Datum), die validierbar und sobald vorhanden korrekt sind.
+- Die KI hat eine confidence von 100%
+- Die Daten werden in ein ERP übernommen
+- Rollen/Rechte, Benachrichtigungen und Folgeprozesse (Lager, Bonität, Versand) sind nicht Teil des Projekts.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Ausblick
 
-## Learn More
+- Deployment per Dockerfile + CI/CD image über GitHub Actions
+- Speicherung der Anhänge Azure Blob storage / S3 storage
 
-To learn more about Next.js, take a look at the following resources:
+## Persönliche Reflexion
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+**Was lief gut:**
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+- UI‑Entwicklung mit shadcn: schnelle Umsetzung konsistenter Komponenten und Layouts.
 
-## Deploy on Vercel
+**Herausforderungen:**
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+- Supabase Auth in Next.js (neu für mich, vorher mit better-auth bzw. Next Auth).
+- Supabase Plattform allgemein, da ich bisher eher lokal mit Postgres oder MS SQL gearbeitet habe. (Berechtigungen/Data API)
+- Neue Next.js Cache‑Funktionen lassen sich aktuell nicht sauber mit Supabase Auth kombinieren
+- Neue Next.js Funktionen sind nicht immer sauber dokumentiert
+- BPMN 2.0 war ungewohnt und brauchte Einarbeitung.
+- Teilvalidierung wird nicht von zod unterstützt, es musste deshalb eine eigene Funktion geschrieben werden
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+**In einem echten Kundenprojekt:**
+
+- Eine klare Data‑Access‑Layer und Dta Transfer Object für bessere Wartbarkeit.
+- UI/UX‑Design vorab stärker konzeptionell festlegen (Designsystem/Layouts).
+- Tabellen serverseitig oder clientseitig je nach Use‑Case differenziert planen (tablecn).
+- Caching von Seiten, Komponenten und Funktionen
+- Fehlende Kernfunktionen ergänzen: Bestellung aktualisieren, Rollen/Rechte, Benachrichtigungen.
+- Robustere Validierung der Daten und ggf. Abgleich mit Bestandsdaten
+- Bessere Datenbank Struktur (z.B. Produkte)
+- Form Error Handling
+- Optimistische Updates

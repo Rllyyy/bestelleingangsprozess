@@ -19,11 +19,13 @@
 - Wie lange müssen Daten archiviert werden (Retention)?
 - Müssen Originale unverändert aufbewahrt werden (Revisionssicherheit)?
 - Welche Datenfelder sind Pflicht (E-mail. Bestelldatum, Positionen, Preise)?
+- Sollen ausgelesen Daten mit Bestandsdaten verglichen werden?
 
 ## 4. Recht & Compliance
 
 - Gibt es rechtliche Einschränkungen bei Verarbeitung/Abspeicherung (z.B. EU-only, KI lokal)?
 - Gibt es branchenspezifische Compliance-Anforderungen (z.B. ISO, GoBD)?
+- (Wurde das IT-Projekt mit dem Betriebsrat nach § 87 Abs. 1 Nr. 6 BetrVG. abgesprochen?)
 
 ## 5. Benachrichtigungen
 
@@ -48,4 +50,5 @@
 - Mit welchen Endgeräten sollen Nutzer hauptsächlich zugreifen?
 - Gibt es Anforderungen an Barrierefreiheit?
 - Welche KPIs werden im Dashboard erwartet (Fehlerquote, Durchlaufzeit, Volumen)?
-- Wer übernimmt die Schulung der Mitarbeiter\*innen
+- Wer übernimmt die Schulung der Mitarbeiter\*innen?
+- (Wie soll die neue Arbeitszeit eingesetzt werden?)
