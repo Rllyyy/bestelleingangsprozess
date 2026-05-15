@@ -25,7 +25,13 @@ export default async function Home() {
 
 async function Orders() {
   const supabase = await createClient();
+  const { data: claimsData, error: claimsError } = await supabase.auth.getClaims();
 
+  if (claimsError || !claimsData?.claims) {
+    return <p>Unauthorized</p>;
+  }
+
+  // fetch content
   const { data, error } = await supabase
     .from("orders")
     .select(
@@ -54,6 +60,7 @@ async function Orders() {
     return <p>Failed to load orders: {error.message}</p>;
   }
 
+  // validate data
   const { data: validData, error: validationError } = orderRowsSchema.safeParse(data);
 
   if (validationError) {

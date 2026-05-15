@@ -32,7 +32,7 @@ async function User() {
               Invalid Items
             </Button>
           </Link>
-          <Link href='/'>
+          <Link href='/dashboard'>
             <Button variant='ghost' className='text-gray-700 hover:text-black'>
               Dashboard
             </Button>
