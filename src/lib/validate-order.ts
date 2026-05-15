@@ -28,7 +28,7 @@ export function validateOrder(input: OrderInput): ValidationResult {
     validData.customer.email = input.customer.email.trim();
   }
 
-  // customer.name (optional)
+  // customer.name
   if (
     input.customer?.name === undefined ||
     input.customer?.name === null ||
@@ -41,7 +41,7 @@ export function validateOrder(input: OrderInput): ValidationResult {
     validData.customer.name = input.customer.name.trim();
   }
 
-  // customer.address (optional)
+  // customer.address
   if (
     typeof input.customer?.address !== "string" ||
     input.customer.address.trim().length < 1 ||
@@ -62,7 +62,7 @@ export function validateOrder(input: OrderInput): ValidationResult {
     validData.price = input.price;
   }
 
-  // ordered at (required string)
+  // ordered at
   if (
     typeof input.ordered_at !== "string" ||
     input.ordered_at.trim().length < 1 ||
