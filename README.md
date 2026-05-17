@@ -7,6 +7,9 @@ Dieses Projekt bildet einen digitalen Bestelleingangsprozess ab: eingehende Best
 Eine neue E‑Mail löst einen Hook aus. Anschließend werden aus der E‑Mail und dem Anhang die relevanten Informationen extrahiert. Zunächst wird das PDF in einem isolierten Container auf Viren geprüft. Danach extrahiert eine KI die Daten mittels OCR aus dem PDF oder der E‑Mail und validiert sie. Sind die Daten valide, werden sie ins ERP‑System übernommen. Andernfalls muss die Bestellung von einem Mitarbeitenden korrigiert werden. Sollte festgestellt werden, dass die KI einen Fehler beim Auslesen gemacht hat, sollte sie trainiert werden. Sind die Daten korrigiert, werden die Daten in das ERP-System übernommen.
 Fälle wie automatische wie Lagerprüfung, Bestellbestätigung oder Bonitäsprüfung wurden in diesem Projekt nicht beachtet.
 
+Daten können über der "Import Data" Button hinzugefügt sowie über den "Delete Data" Button gelöscht werden.
+Neue Bestellungen könne über "New Order" hinzugefügt werden. Bis auf diese Suche funktioniert der Filter noch nicht.
+
 ## Anleitung
 
 Abhängigkeiten installieren
@@ -32,6 +35,30 @@ yarn dev
 pnpm dev
 # or
 bun dev
+```
+
+Projekt bauen:
+
+```bash
+npm run build
+# or
+yarn build
+# or
+pnpm build
+# or
+bun build
+```
+
+Build starten:
+
+```bash
+npm start
+# or
+yarn start
+# or
+pnpm start
+# or
+bun start
 ```
 
 ## Getroffene Annahmen
