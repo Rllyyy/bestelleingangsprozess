@@ -64,6 +64,15 @@ export default function OrderTable({ orders }: Props) {
         header: "Price",
         cell: ({ getValue }) => (typeof getValue<number>() === "number" ? getValue<number>() : "—"),
       },
+      {
+        id: "actions",
+        header: "",
+        cell: () => (
+          <Button variant='outline' size='sm'>
+            View
+          </Button>
+        ),
+      },
     ],
     [],
   );
@@ -72,6 +81,7 @@ export default function OrderTable({ orders }: Props) {
     data: orders,
     columns,
     state: { sorting, globalFilter },
+    initialState: { pagination: { pageSize: 25 } },
     onSortingChange: setSorting,
     onGlobalFilterChange: setGlobalFilter,
     getCoreRowModel: getCoreRowModel(),

@@ -5,11 +5,13 @@ import { Button } from "./ui/button";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuLabel, DropdownMenuTrigger } from "./ui/dropdown-menu";
 import { Avatar, AvatarFallback } from "./ui/avatar";
 import SignOutButton from "./sign-out-btn";
+import ImportDataButton from "./import-data-btn";
+import DeleteDataButton from "./delete-data-btn";
 
 export default async function Navbar() {
   return (
-    <nav className='sticky top-0 w-full border-b border-gray-200'>
-      <div className='flex h-16 items-center justify-between px-4 mx-auto'>
+    <nav className='sticky top-0 z-50 w-full border-b border-gray-200 bg-background'>
+      <div className='flex h-16 items-center px-4 mx-auto gap-4'>
         <Link href='/'>Home</Link>
         <Suspense>
           <User />
@@ -24,12 +26,14 @@ async function User() {
   const { data } = await supabase.auth.getClaims();
 
   return (
-    <div className='flex items-center gap-4'>
+    <>
       {data?.claims ? (
         <>
-          <Link href='/'>
+          <ImportDataButton />
+          <DeleteDataButton />
+          <Link href='/' className='ml-auto'>
             <Button variant='ghost' className='text-gray-700 hover:text-black'>
-              Invalid Items
+              Orders
             </Button>
           </Link>
           <Link href='/dashboard'>
@@ -61,6 +65,6 @@ async function User() {
           </Button>
         </Link>
       )}
-    </div>
+    </>
   );
 }

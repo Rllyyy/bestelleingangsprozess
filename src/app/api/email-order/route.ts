@@ -1,8 +1,15 @@
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import { createClient } from "@/lib/supabase/server";
 import { validateOrder } from "@/lib/validate-order";
+import { revalidatePath } from "next/cache";
 
-export async function GET() {
+type Results = {
+  index: number;
+  ok: boolean;
+  error: string | null;
+}[];
+
+export async function POST(request: NextRequest) {
   const supabase = await createClient();
 
   const { data: claimsData, error: claimsError } = await supabase.auth.getClaims();
@@ -11,115 +18,133 @@ export async function GET() {
     return NextResponse.json({ error: claimsError?.message || "Unauthorized" }, { status: 401 });
   }
 
-  // Simulierte KI-Extraktion (valid)
-  const extractedData = {
-    customer: {
-      name: "Max Mustermann",
-      address: "Musterstraße 1, 12345 Hamburg",
-      email: "max.mustermann@example.com",
-    },
-    price: 105.98,
-    ordered_at: "2026-05-14T06:20:17.000Z",
-    items: [
-      {
-        article_number: "13",
-        part_name: "Schraube",
-        quantity: 10,
-      },
-      {
-        article_number: "01",
-        part_name: "Zange",
-        quantity: 5,
-      },
-    ],
-  };
+  const res = await fetch(new URL("/data.json", request.nextUrl.origin));
 
-  // const extractedData = {
-  //   customer: {
-  //     name: "Niklas Fischer",
-  //     address: "Langer Weg 123, 45612 Hamburg",
-  //     email: "niklas.fischer@mail.de",
-  //   },
-  //   price: -105.98,
-  //   ordered_at: "2026-05-14T06:20:17.000Z",
-  //   items: [
-  //     {
-  //       article_number: "13",
-  //       part_name: "Schraube",
-  //       quantity: 10,
-  //     },
-  //     {
-  //       // article_number: "01",
-  //       part_name: "Zange",
-  //       quantity: 5,
-  //     },
-  //   ],
-  // };
+  const data = await res.json();
 
-  // Validate data
-  const { validData, errors } = validateOrder(extractedData);
-
-  // return NextResponse.json({ errors, validData });
-
-  // Without email and order at an order can't be processes
-  if (!validData.customer.email || !validData.ordered_at) {
-    return NextResponse.json(
-      { error: "Order can not be process without customer email or ordered at!" },
-      { status: 400 },
-    );
+  if (!Array.isArray(data)) {
+    return NextResponse.json({ error: "Expected array in data.json" }, { status: 400 });
   }
+  const results: Results = [];
 
-  // Get or create customer
-  let customerId: string;
+  for (let index = 0; index < data.length; index++) {
+    let customerId: string | null = null;
+    let orderId: string | null = null;
 
-  try {
-    const { data: upsertedCustomer, error: upsertError } = await supabase
-      .from("customers")
-      .upsert(validData.customer, { onConflict: "email" })
-      .select("id")
-      .single();
+    // Validate data
+    const { validData, errors: validationsErrors } = validateOrder(data[index]);
 
-    if (upsertError) {
-      throw new Error(upsertError.message);
+    // Without email and order at an order can't be processes
+    if (!validData.customer.email || !validData.ordered_at) {
+      return NextResponse.json(
+        { error: "Order can not be process without customer email or ordered at!" },
+        { status: 400 },
+      );
     }
 
-    customerId = upsertedCustomer.id;
-  } catch (err) {
-    return NextResponse.json({ error: err instanceof Error ? err.message : "Customer error" }, { status: 500 });
+    // Get or create customer
+    try {
+      const { data: upsertedCustomer, error: upsertError } = await supabase
+        .from("customers")
+        .upsert(validData.customer, { onConflict: "email" })
+        .select("id")
+        .single();
+
+      if (upsertError) {
+        throw new Error(upsertError.message);
+      }
+
+      if (!upsertedCustomer.id) {
+        throw new Error("Missing customerId");
+      }
+
+      customerId = upsertedCustomer.id;
+    } catch (err) {
+      results.push({ index, ok: false, error: err instanceof Error ? err.message : "Customer error" });
+      continue;
+    }
+
+    // Create order
+    try {
+      const { data, error: orderError } = await supabase
+        .from("orders")
+        .insert({
+          customer_id: customerId as string,
+          status: validationsErrors.length > 0 ? "faulty" : "submitted",
+          ...(validData.ordered_at ? { ordered_at: validData.ordered_at } : {}),
+          ...(validData.price ? { price: validData.price } : {}),
+        })
+        .select("id")
+        .single();
+
+      if (orderError) {
+        throw new Error(orderError.message);
+      }
+
+      if (!data.id) {
+        throw new Error("Missing orderId");
+      }
+
+      orderId = data.id;
+    } catch (err) {
+      results.push({ index, ok: false, error: err instanceof Error ? err.message : "Customer error" });
+      continue;
+    }
+
+    // Create order items
+    const orderItems = validData.items.map((item) => ({
+      order_id: orderId as string,
+      ...(item.article_number ? { article_number: item.article_number } : {}),
+      ...(item.part_name ? { part_name: item.part_name } : {}),
+      ...(item.quantity ? { quantity: item.quantity } : {}),
+    }));
+
+    try {
+      const { error: itemsError } = await supabase.from("order_items").insert(orderItems);
+
+      if (itemsError) {
+        throw new Error(itemsError?.message);
+      }
+    } catch (err) {
+      results.push({ index, ok: false, error: err instanceof Error ? err.message : "Items Error" });
+      continue;
+    }
+
+    results.push({ index, ok: true, error: null });
+
+    revalidatePath("/");
+    revalidatePath("/dashboard");
   }
 
-  // Create Order
-  const { data: order, error: orderError } = await supabase
-    .from("orders")
-    .insert({
-      customer_id: customerId,
-      status: errors.length > 0 ? "faulty" : "submitted",
-      ...(validData.ordered_at ? { ordered_at: validData.ordered_at } : {}),
-      ...(validData.price ? { price: validData.price } : {}),
-    })
-    .select()
-    .single();
+  return NextResponse.json({ results });
+}
 
-  if (orderError) {
-    return NextResponse.json({ error: orderError.message }, { status: 500 });
+export async function DELETE() {
+  const supabase = await createClient();
+
+  const { data: claimsData, error: claimsError } = await supabase.auth.getClaims();
+  if (claimsError || !claimsData?.claims) {
+    return NextResponse.json({ error: claimsError?.message || "Unauthorized" }, { status: 401 });
   }
 
-  // Create order items
-  const orderItems = validData.items.map((item) => ({
-    order_id: order.id,
-    ...(item.article_number ? { article_number: item.article_number } : {}),
-    ...(item.part_name ? { part_name: item.part_name } : {}),
-    ...(item.quantity ? { quantity: item.quantity } : {}),
-  }));
-
-  const { error: itemsError } = await supabase.from("order_items").insert(orderItems);
-
+  // Delete in FK-safe order
+  const { error: itemsError } = await supabase.from("order_items").delete().not("id", "is", null);
   if (itemsError) {
     return NextResponse.json({ error: itemsError.message }, { status: 500 });
   }
 
-  return NextResponse.json({
-    success: true,
-    order,
-  });
+  const { error: ordersError } = await supabase.from("orders").delete().not("id", "is", null);
+  if (ordersError) {
+    return NextResponse.json({ error: ordersError.message }, { status: 500 });
+  }
+
+  const { error: customersError } = await supabase.from("customers").delete().not("id", "is", null);
+  if (customersError) {
+    return NextResponse.json({ error: customersError.message }, { status: 500 });
+  }
+
+  revalidatePath("/");
+  revalidatePath("/dashboard");
+
+  return NextResponse.json({ ok: true });
 }

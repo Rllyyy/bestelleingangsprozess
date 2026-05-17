@@ -1,0 +1,217 @@
+[
+  {
+    "customer": {
+      "name": "Max Mustermann",
+      "address": "Musterstraße 1, 12345 Hamburg",
+      "email": "max.mustermann@example.com"
+    },
+    "price": 105.98,
+    "ordered_at": "2026-05-14T06:20:17.000Z",
+    "items": [
+      { "article_number": "13", "part_name": "Schraube", "quantity": 10 },
+      { "article_number": "01", "part_name": "Zange", "quantity": 5 }
+    ]
+  },
+  {
+    "customer": {
+      "name": "Lena Schuster",
+      "address": "Parkweg 7, 20457 Hamburg",
+      "email": "lena.schuster@example.com"
+    },
+    "price": 249.5,
+    "ordered_at": "2026-05-14T08:45:00.000Z",
+    "items": [
+      { "article_number": "22", "part_name": "Bohrer", "quantity": 2 },
+      { "article_number": "45", "part_name": "Hammer", "quantity": 1 }
+    ]
+  },
+  {
+    "customer": {
+      "name": "Tom Berger",
+      "address": "Hafenstraße 3, 21079 Hamburg",
+      "email": "tom.berger@example.com"
+    },
+    "price": 59.99,
+    "ordered_at": "2026-05-14T09:12:30.000Z",
+    "items": [{ "article_number": "08", "part_name": "Bit-Set", "quantity": 1 }]
+  },
+  {
+    "customer": {
+      "name": "Mara Vogel",
+      "address": "Elbchaussee 99, 22763 Hamburg",
+      "email": "mara.vogel@example.com"
+    },
+    "price": 0,
+    "ordered_at": "2026-05-14T10:05:00.000Z",
+    "items": [{ "article_number": "31", "part_name": "Maulschlüssel", "quantity": 3 }]
+  },
+  {
+    "customer": {
+      "name": "Niklas Frischer",
+      "address": "Langer Weg 123, 45612 Hamburg",
+      "email": "test.mail@mail.de"
+    },
+    "price": -105.98,
+    "ordered_at": "2026-05-14T10:30:00.000Z",
+    "items": [
+      { "article_number": "13", "part_name": "Schraube", "quantity": 10 },
+      { "part_name": "Zange", "quantity": 5 }
+    ]
+  },
+  {
+    "customer": {
+      "name": "Sara Kühn",
+      "address": "Bergstraße 12, 22335 Hamburg",
+      "email": "sara.kuehn@example.com"
+    },
+    "price": 89.0,
+    "ordered_at": "2026-05-14T11:00:00.000Z",
+    "items": [{ "article_number": "18", "part_name": "Schleifpapier", "quantity": 6 }]
+  },
+  {
+    "customer": {
+      "name": "Paul König",
+      "address": "Mühlenweg 4, 21465 Reinbek",
+      "email": "paul.koenig@example.com"
+    },
+    "price": 12.5,
+    "ordered_at": "2026-05-14T11:15:00.000Z",
+    "items": [{ "article_number": "02", "part_name": "Maßband", "quantity": 1 }]
+  },
+  {
+    "customer": {
+      "name": "Jana Lehmann",
+      "address": "Sonnenallee 44, 22041 Hamburg",
+      "email": "jana.lehmann@example.com"
+    },
+    "price": 199.99,
+    "ordered_at": "2026-05-14T12:10:00.000Z",
+    "items": [{ "article_number": "52", "part_name": "Akkuschrauber", "quantity": 1 }]
+  },
+  {
+    "customer": {
+      "name": "Lukas Brandt",
+      "address": "Buchenweg 5, 22529 Hamburg",
+      "email": "lukas.brandt@example.com"
+    },
+    "price": 74.3,
+    "ordered_at": "2026-05-14T12:30:00.000Z",
+    "items": [
+      { "article_number": "27", "part_name": "Schutzbrille", "quantity": 2 },
+      { "article_number": "28", "part_name": "Handschuhe", "quantity": 3 }
+    ]
+  },
+  {
+    "customer": {
+      "name": "Anna Peters",
+      "address": "Kanalstraße 18, 20537 Hamburg",
+      "email": "anna.peters@example.com"
+    },
+    "price": 39.9,
+    "ordered_at": "2026-05-14T13:05:00.000Z",
+    "items": [{ "article_number": "15", "part_name": "Schraubenzieher", "quantity": 2 }]
+  },
+  {
+    "customer": {
+      "name": "Hannes Wolf",
+      "address": "Wiesenweg 9, 22113 Oststeinbek",
+      "email": "hannes.wolf@example.com"
+    },
+    "price": 310.0,
+    "ordered_at": "2026-05-14T13:45:00.000Z",
+    "items": [{ "article_number": "60", "part_name": "Werkzeugkoffer", "quantity": 1 }]
+  },
+  {
+    "customer": {
+      "name": "Mia Roth",
+      "address": "Feldstraße 2, 20357 Hamburg",
+      "email": "mia.roth@example.com"
+    },
+    "price": 48.2,
+    "ordered_at": "2026-05-14T14:00:00.000Z",
+    "items": [{ "article_number": "33", "part_name": "Dübel", "quantity": 50 }]
+  },
+  {
+    "customer": {
+      "name": "Felix Hartmann",
+      "address": "Seestraße 21, 25335 Elmshorn",
+      "email": "felix.hartmann@example.com"
+    },
+    "price": 0,
+    "ordered_at": "2026-05-14T14:25:00.000Z",
+    "items": []
+  },
+  {
+    "customer": {
+      "name": "Lea Kramer",
+      "address": "Schillerstraße 8, 21502 Geesthacht",
+      "email": "lea.kramer@example.com"
+    },
+    "price": 15.75,
+    "ordered_at": "2026-05-14T15:10:00.000Z",
+    "items": [{ "article_number": "05", "part_name": "Wasserwaage", "quantity": 1 }]
+  },
+  {
+    "customer": {
+      "name": "Nico Jansen",
+      "address": "Am Markt 1, 21244 Buchholz",
+      "email": "nico.jansen@example.com"
+    },
+    "price": 128.4,
+    "ordered_at": "2026-05-14T15:25:00.000Z",
+    "items": [{ "article_number": "71", "part_name": "Stichsägeblatt", "quantity": 5 }]
+  },
+  {
+    "customer": {
+      "name": "Clara Brand",
+      "address": "Rosenweg 14, 22869 Schenefeld",
+      "email": "clara.brand@example.com"
+    },
+    "price": 22.0,
+    "ordered_at": "2026-05-14T16:00:00.000Z",
+    "items": [{ "article_number": "11", "quantity": 4 }]
+  },
+  {
+    "customer": {
+      "name": "Simon Krüger",
+      "address": "Bahnstraße 33, 25421 Pinneberg",
+      "email": "simon.krueger@example.com"
+    },
+    "price": 5.0,
+    "ordered_at": "2026-05-14T16:20:00.000Z",
+    "items": [{ "article_number": "03", "part_name": "Bleistift", "quantity": 0 }]
+  },
+  {
+    "customer": {
+      "name": "Ella Reimann",
+      "address": "Lindenweg 6, 22880 Wedel",
+      "email": "ella.reimann@example.com"
+    },
+    "price": 86.6,
+    "ordered_at": "2026-05-14T16:40:00.000Z",
+    "items": [
+      { "article_number": "19", "part_name": "Pinsel", "quantity": 3 },
+      { "article_number": "20", "part_name": "Farbeimer", "quantity": 1 }
+    ]
+  },
+  {
+    "customer": {
+      "name": "Jan Peters",
+      "address": "Kiefernweg 20, 21493 Schwarzenbek",
+      "email": "jan.peters@example.com"
+    },
+    "price": 64.0,
+    "ordered_at": "2026-05-14T17:05:00.000Z",
+    "items": [{ "article_number": "90", "part_name": "Sägeblatt", "quantity": 2 }]
+  },
+  {
+    "customer": {
+      "name": "Tina Sommer",
+      "address": "Hauptstraße 55, 21029 Hamburg",
+      "email": "tina.sommer@example.com"
+    },
+    "price": 120.0,
+    "ordered_at": "2026-05-14T17:30:00.000Z",
+    "items": [{ "article_number": "24", "part_name": "Schrauben-Set", "quantity": 1 }]
+  }
+]
