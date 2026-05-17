@@ -40,6 +40,7 @@ bun dev
 - Die KI hat eine confidence von 100%
 - Die Daten werden in ein ERP übernommen
 - Rollen/Rechte, Benachrichtigungen und Folgeprozesse (Lager, Bonität, Versand) sind nicht Teil des Projekts.
+- Es gibt keine Fehler beim Speichern der Bestellungen im ERP System
 
 ## Ausblick
 
@@ -72,3 +73,8 @@ bun dev
 - Bessere Datenbank Struktur (z.B. Produkte)
 - Form Error Handling
 - Optimistische Updates
+- PDF's einsehen
+- rate limiting
+- Testen (Unit, E2E, User)
+- Server seitiges filtering
+- Ladeplaceholder
